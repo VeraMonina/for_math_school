@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Теорема Пифагора и прямоугольный треугольник</title>
+<style>
+:root{--bg:#fbfaf7;--card:#fff;--tx:#1d2330;--mut:#5d6679;--bd:#e3e0d8;--ac:#2f5fd0;--a:#e8863a;--b:#2a9d8f;--c:#c0392b;--tri:#dfe6f7;--ok:#1f8a4c;--bad:#c0392b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14171f;--card:#1c212c;--tx:#e8ebf2;--mut:#9aa3b5;--bd:#2c3342;--ac:#7ea2ff;--a:#f0a05c;--b:#4fc3b3;--c:#ef6f60;--tri:#2c3a5e;--ok:#5fd28c;--bad:#ef6f60;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#14171f;--card:#1c212c;--tx:#e8ebf2;--mut:#9aa3b5;--bd:#2c3342;--ac:#7ea2ff;--a:#f0a05c;--b:#4fc3b3;--c:#ef6f60;--tri:#2c3a5e;--ok:#5fd28c;--bad:#ef6f60;color-scheme:dark}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:900px;margin:0 auto;padding:18px 16px 40px}
+h1{font-size:1.6rem;margin:.2em 0}h2{font-size:1.2rem;margin:1.2em 0 .4em}h3{font-size:1rem;margin:0 0 .3em}
+.sub{color:var(--mut);margin:0 0 14px}
+nav{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 16px}
+nav button,.btn{font:inherit;border:1px solid var(--bd);background:var(--card);color:var(--tx);padding:8px 14px;border-radius:999px;cursor:pointer}
+nav button.on,.btn.pri{background:var(--ac);border-color:var(--ac);color:#fff}
+section{display:none}section.on{display:block}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px 16px;margin:10px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px}
+.grid .card{margin:0}
+.ctl{display:grid;grid-template-columns:auto 1fr auto;gap:8px 12px;align-items:center}
+.ctl input[type=range]{width:100%;accent-color:var(--ac)}
+svg{width:100%;height:auto;display:block;max-width:440px;margin:0 auto}
+.eq{font-size:1.05rem;line-height:1.9;overflow-x:auto}
+.a{color:var(--a);font-weight:600}.b{color:var(--b);font-weight:600}.c{color:var(--c);font-weight:600}
+.mut{color:var(--mut)}.fm{font-family:ui-monospace,Menlo,Consolas,monospace;background:color-mix(in srgb,var(--ac) 10%,transparent);padding:1px 6px;border-radius:6px;white-space:nowrap}
+input[type=text],input[type=number]{font:inherit;width:100%;padding:8px 10px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx)}
+.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.res{margin-top:10px;padding:10px 12px;border-radius:10px;background:color-mix(in srgb,var(--ac) 10%,transparent)}
+details{margin-top:8px}summary{cursor:pointer;color:var(--ac)}
+.opt{display:block;width:100%;text-align:left;margin:6px 0}
+.opt.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 18%,transparent)}.opt.no{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 18%,transparent)}
+table{border-collapse:collapse;width:100%}td,th{border:1px solid var(--bd);padding:6px 8px;text-align:center}
+.scroll{overflow-x:auto}button:disabled,input:disabled{opacity:.4;cursor:default}
+</style></head><body><div class="wrap">
+<h1>📐 Теорема Пифагора</h1>
+<p class="sub">Интерактивное доказательство и всё главное о прямоугольных треугольниках (7–8 класс)</p>
+<nav id="nav"><button data-t="e" class="on">Доказательство Евклида</button><button data-t="p">Перестановкой</button><button data-t="k">Калькулятор</button><button data-t="f">Свойства</button><button data-t="q">Мини-тест</button></nav>
+
+<section id="e" class="on">
+<div class="card"><p style="margin-top:0"><b>Теорема.</b> Площадь квадрата на гипотенузе равна сумме площадей квадратов на катетах: <span class="fm">c² = a² + b²</span>.</p>
+<p class="mut" style="margin:0">Классическое доказательство Евклида. Пройдите шаги 1–5; на шагах 3 и 4 двигайте ползунок «Поворот».</p></div>
+<div class="card">
+<div class="chips" id="steps" style="margin:0 0 8px"></div>
+<svg id="esvg" viewBox="0 0 460 460" role="img" aria-label="Доказательство Евклида: квадраты на сторонах прямоугольного треугольника"></svg>
+<p id="ecap" style="min-height:5.5em;margin:6px 0"></p>
+<div class="ctl">
+<label for="ea">Катет <span class="a">a</span></label><input id="ea" type="range" min="1" max="10" value="3"><b id="eva">3</b>
+<label for="eb">Катет <span class="b">b</span></label><input id="eb" type="range" min="1" max="10" value="4"><b id="evb">4</b>
+<label for="et">Поворот</label><input id="et" type="range" min="0" max="100" value="0"><button class="btn pri" id="eplay">▶</button>
+</div></div>
+<div class="card eq" id="eeq"></div>
+</section>
+
+<section id="p">
+<div class="card">
+<p style="margin-top:0"><b>Теорема.</b> В прямоугольном треугольнике квадрат гипотенузы равен сумме квадратов катетов: <span class="fm">c² = a² + b²</span>.</p>
+<p class="mut" style="margin:0">Двигайте ползунок «Перестановка» (или нажмите ▶): одни и те же 4 треугольника лежат в квадрате со стороной <span class="a">a</span>+<span class="b">b</span> по-разному. Свободная площадь меняет форму, а значит — равна.</p>
+</div>
+<div class="card">
+<svg id="svg" viewBox="0 0 400 400" role="img" aria-label="Доказательство теоремы Пифагора перестановкой треугольников"></svg>
+<p id="cap" style="text-align:center;min-height:3em;margin:6px 0"></p>
+<div class="ctl">
+<label for="ra">Катет <span class="a">a</span></label><input id="ra" type="range" min="1" max="10" value="3"><b id="va">3</b>
+<label for="rb">Катет <span class="b">b</span></label><input id="rb" type="range" min="1" max="10" value="4"><b id="vb">4</b>
+<label for="rt">Перестановка</label><input id="rt" type="range" min="0" max="100" value="0"><button class="btn pri" id="play">▶</button>
+</div></div>
+<div class="card eq" id="eq"></div>
+<details class="card"><summary>Почему внутри на первом рисунке именно квадрат?</summary>
+<p>Острые углы треугольника α и β дают в сумме 90°. В каждой вершине внутренней фигуры сходятся угол α, угол β и сама фигура: α + β + x = 180° (развёрнутый угол), поэтому x = 90°. Все четыре стороны равны гипотенузе <span class="c">c</span> — значит, это квадрат со стороной c и площадью c².</p></details>
+<details class="card"><summary>Идея доказательства в двух строках</summary>
+<p>Большой квадрат одинаков в обоих случаях: (a+b)². Минус одни и те же 4 треугольника (каждый площадью ab/2) — остаётся либо <span class="c">c²</span>, либо <span class="a">a²</span>+<span class="b">b²</span>. Значит, они равны.</p></details>
+<div class="card"><b>Обратная теорема.</b> Если для сторон треугольника c² = a² + b², то он прямоугольный (угол напротив c — прямой). Если c² &gt; a² + b² — угол тупой, если c² &lt; a² + b² — все углы острые.</div>
+</section>
+
+<section id="k">
+<div class="card"><h3>Найти недостающую сторону</h3>
+<p class="mut" style="margin:0 0 8px">Заполните два поля, третье оставьте пустым (с — гипотенуза).</p>
+<div class="row3"><div>a<input id="ca" type="text" inputmode="decimal" value="6"></div><div>b<input id="cb" type="text" inputmode="decimal" value="8"></div><div>c<input id="cc" type="text" inputmode="decimal"></div></div>
+<div class="res" id="cres"></div>
+<p class="mut" style="margin:10px 0 0">Пифагоровы тройки (нажмите, чтобы подставить):</p>
+<div class="chips" id="trip"></div></div>
+<div class="card"><h3>Прямоугольный ли треугольник?</h3>
+<div class="row3"><div>сторона 1<input id="x1" type="text" inputmode="decimal" value="5"></div><div>сторона 2<input id="x2" type="text" inputmode="decimal" value="12"></div><div>сторона 3<input id="x3" type="text" inputmode="decimal" value="13"></div></div>
+<div class="res" id="xres"></div></div>
+</section>
+
+<section id="f">
+<div class="card"><h3>Тригонометрия на пальцах (8 класс)</h3>
+<svg id="tsvg" viewBox="0 0 400 250" role="img" aria-label="Треугольник с углом альфа"></svg>
+<div class="ctl"><label for="al">Угол <b>α</b></label><input id="al" type="range" min="5" max="85" value="35"><b id="alv">35°</b></div>
+<div class="scroll"><table style="margin-top:8px"><tr><th>sin α = a/c</th><th>cos α = b/c</th><th>tg α = a/b</th></tr><tr id="trow"></tr></table></div>
+<p class="mut" style="margin-bottom:0">a — катет, <i>противолежащий</i> α; b — <i>прилежащий</i>. Заметьте: sin² α + cos² α всегда = <b>1</b> (это та же теорема Пифагора, поделённая на c²).</p></div>
+<div class="grid">
+<div class="card"><h3>Названия сторон</h3><p>Катеты — стороны, образующие прямой угол. Гипотенуза — сторона напротив прямого угла; она всегда самая длинная (c &gt; a и c &gt; b).</p></div>
+<div class="card"><h3>Углы</h3><p>Два острых угла в сумме дают 90°: α + β = 90°. Поэтому sin α = cos β.</p></div>
+<div class="card"><h3>Площадь</h3><p><span class="fm">S = ab/2</span> (половина произведения катетов) и <span class="fm">S = c·h/2</span>, где h — высота к гипотенузе.</p></div>
+<div class="card"><h3>Угол 30°</h3><p>Катет против угла 30° равен половине гипотенузы — и наоборот: если катет вдвое короче гипотенузы, угол напротив него 30°. Треугольник 30°–60°–90°: стороны 1 : √3 : 2.</p></div>
+<div class="card"><h3>Угол 45°</h3><p>Равнобедренный прямоугольный треугольник: катеты равны, острые углы по 45°, гипотенуза <span class="fm">c = a√2</span>. Стороны 1 : 1 : √2.</p></div>
+<div class="card"><h3>Медиана к гипотенузе</h3><p>Равна половине гипотенузы: <span class="fm">m = c/2</span>. Середина гипотенузы — центр описанной окружности, <span class="fm">R = c/2</span>.</p></div>
+<div class="card"><h3>Высота к гипотенузе</h3><p>Делит гипотенузу на отрезки p и q (проекции катетов). Тогда <span class="fm">h² = p·q</span>, <span class="fm">a² = c·p</span>, <span class="fm">b² = c·q</span>, <span class="fm">h = ab/c</span>. Два получившихся треугольника подобны исходному и друг другу.</p></div>
+<div class="card"><h3>Вписанная окружность</h3><p>Радиус: <span class="fm">r = (a + b − c)/2</span>. Например, для 3–4–5: r = (3+4−5)/2 = 1.</p></div>
+<div class="card"><h3>Признаки равенства</h3><p>Прямоугольные треугольники равны: по двум катетам; по катету и острому углу; по гипотенузе и острому углу; по гипотенузе и катету.</p></div>
+<div class="card"><h3>Значения для частых углов</h3><div class="scroll"><table><tr><th>α</th><th>30°</th><th>45°</th><th>60°</th></tr><tr><td>sin</td><td>1/2</td><td>√2/2</td><td>√3/2</td></tr><tr><td>cos</td><td>√3/2</td><td>√2/2</td><td>1/2</td></tr><tr><td>tg</td><td>√3/3</td><td>1</td><td>√3</td></tr></table></div></div>
+</div></section>
+
+<section id="q"><div class="card"><div id="quiz"></div><p id="score" style="font-weight:600"></p></div></section>
+</div>
+<script>
+const $=id=>document.getElementById(id),fmt=x=>+x.toFixed(4);
+document.querySelectorAll('#nav button').forEach(bt=>bt.onclick=()=>{
+ document.querySelectorAll('#nav button').forEach(x=>x.classList.toggle('on',x===bt));
+ document.querySelectorAll('section').forEach(s=>s.classList.toggle('on',s.id===bt.dataset.t));});
+
+/* ---------- Доказательство ---------- */
+let a=3,b=4,t=0,timer=null;
+function xf(A,B,t){const ang=(p,q)=>Math.atan2(q[1]-p[1],q[0]-p[0]);let th=ang(B[0],B[1])-ang(A[0],A[1]);th=Math.atan2(Math.sin(th),Math.cos(th));
+ const r=t*th,c=Math.cos(r),s=Math.sin(r),o=[A[0][0]+t*(B[0][0]-A[0][0]),A[0][1]+t*(B[0][1]-A[0][1])];
+ return A.map(p=>{const dx=p[0]-A[0][0],dy=p[1]-A[0][1];return[o[0]+dx*c-dy*s,o[1]+dx*s+dy*c]})}
+function draw(){
+ const S=a+b,k=360/S,o=20,P=p=>(o+p[0]*k).toFixed(1)+','+(o+p[1]*k).toFixed(1);
+ const A=[[[S,0],[b,0],[S,b]],[[S,S],[S,b],[a,S]],[[0,S],[a,S],[0,a]],[[0,0],[0,a],[b,0]]];
+ const B=[[[S,0],[b,0],[S,b]],[[b,b],[S,b],[b,0]],[[b,S],[b,b],[0,S]],[[0,b],[0,S],[b,b]]];
+ const poly=(pts,f,op,st)=>`<polygon points="${pts.map(P).join(' ')}" fill="${f}" fill-opacity="${op}" stroke="${st||'var(--tx)'}" stroke-width="1.4" stroke-linejoin="round"/>`;
+ const lab=(x,y,s,col,op)=>`<text x="${o+x*k}" y="${o+y*k+6}" text-anchor="middle" font-size="20" font-weight="700" fill="${col}" opacity="${op}">${s}</text>`;
+ let h=`<rect x="${o}" y="${o}" width="${S*k}" height="${S*k}" fill="none" stroke="var(--mut)" stroke-dasharray="4 3"/>`;
+ h+=poly([[b,0],[S,b],[a,S],[0,a]],'var(--c)',.55*(1-t),'none');
+ h+=poly([[0,0],[b,0],[b,b],[0,b]],'var(--b)',.55*t,'none');
+ h+=poly([[b,b],[S,b],[S,S],[b,S]],'var(--a)',.55*t,'none');
+ A.forEach((T,i)=>h+=poly(xf(T,B[i],t),'var(--tri)',1));
+ h+=lab(S/2,S/2-.0,'c²','var(--c)',1-t)+lab(b/2,b/2,'b²','var(--b)',t)+lab(b+a/2,b+a/2,'a²','var(--a)',t);
+ $('svg').innerHTML=h;
+ $('cap').innerHTML=t<.03?'Шаг 1. Квадрат со стороной a+b: 4 треугольника и наклонный квадрат <span class="c">c²</span>.':t>.97?'Шаг 2. Те же 4 треугольника — свободное место заняли два квадрата: <span class="b">b²</span> и <span class="a">a²</span>.':'Переставляем треугольники — площадь свободной части не меняется…';
+ const c2=a*a+b*b;
+ $('eq').innerHTML=`Площадь большого квадрата:<br>(<span class="a">a</span>+<span class="b">b</span>)² = 4·<span class="mut">ab/2</span> + <span class="c">c²</span> &nbsp;и&nbsp; (<span class="a">a</span>+<span class="b">b</span>)² = 4·<span class="mut">ab/2</span> + <span class="a">a²</span> + <span class="b">b²</span><br>
+ Вычитаем одинаковое: <b><span class="c">c²</span> = <span class="a">a²</span> + <span class="b">b²</span></b><br>
+ <span class="mut">Для a = ${a}, b = ${b}:</span> c² = ${a*a} + ${b*b} = ${c2}, &nbsp;c = √${c2} ≈ ${fmt(Math.sqrt(c2))}`;
+}
+function set(){a=+$('ra').value;b=+$('rb').value;t=$('rt').value/100;$('va').textContent=a;$('vb').textContent=b;draw()}
+['ra','rb','rt'].forEach(i=>$(i).oninput=()=>{stop();set()});
+function stop(){if(timer){clearInterval(timer);timer=null;$('play').textContent='▶'}}
+$('play').onclick=()=>{if(timer)return stop();$('play').textContent='❚❚';if(+$('rt').value>=100)$('rt').value=0;
+ timer=setInterval(()=>{let v=+$('rt').value+1;$('rt').value=v;set();if(v>=100)stop()},30)};
+set();
+
+/* ---------- Евклид ---------- */
+let ea=3,eb=4,es=1,et=0,etimer=null;
+['1. Квадраты','2. Высота','3. Квадрат b²','4. Квадрат a²','5. Вывод'].forEach((s,i)=>{const bt=document.createElement('button');bt.className='btn';bt.textContent=s;
+ bt.onclick=()=>{estop();es=i+1;et=0;$('et').value=0;edraw()};$('steps').appendChild(bt)});
+function edraw(){
+ const a=ea,b=eb,c=Math.hypot(a,b),p=b*b/c,h=a*b/c,add=(P,Q)=>[P[0]+Q[0],P[1]+Q[1]];
+ const A=[0,0],B=[c,0],C=[p,h],D=[p,0],E=[p,-c],A2=[0,-c],B2=[c,-c],F=add(A,[-h,p]),G=add(C,[-h,p]),F2=add(B,[h,c-p]),G2=add(C,[h,c-p]);
+ const all=[A,B,C,F,G,F2,G2,A2,B2],xs=all.map(q=>q[0]),ys=all.map(q=>q[1]);
+ const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys),k=Math.min(420/(x1-x0),420/(y1-y0)),ox=(460-k*(x1-x0))/2,oy=(460-k*(y1-y0))/2;
+ const S=q=>[ox+(q[0]-x0)*k,oy+(y1-q[1])*k],pt=q=>S(q).map(v=>v.toFixed(1)).join(',');
+ const tx='var(--tx)',cb='var(--b)',ca='var(--a)',cc='var(--c)';
+ const poly=(pts,f,op,st,sw,dash)=>`<polygon points="${pts.map(pt).join(' ')}" fill="${f}" fill-opacity="${op}" stroke="${st}" stroke-width="${sw||1.4}"${dash?' stroke-dasharray="5 4"':''} stroke-linejoin="round"/>`;
+ const lab=(pts,s,col)=>{const q=S([pts.reduce((u,v)=>u+v[0],0)/pts.length,pts.reduce((u,v)=>u+v[1],0)/pts.length]);return `<text x="${q[0]}" y="${q[1]+7}" text-anchor="middle" font-size="22" font-weight="700" fill="${col}">${s}</text>`};
+ const vl=(q,s,dx,dy)=>{const r=S(q);return `<text x="${r[0]+dx}" y="${r[1]+dy}" text-anchor="middle" font-size="16" font-weight="700" fill="${tx}">${s}</text>`};
+ const rot=(q,o,th)=>{const dx=q[0]-o[0],dy=q[1]-o[1],cs=Math.cos(th),sn=Math.sin(th);return[o[0]+dx*cs-dy*sn,o[1]+dx*sn+dy*cs]};
+ const sqB=[A,C,G,F],sqA=[C,B,F2,G2],sqC=[A,B,B2,A2],RL=[A,D,E,A2],RR=[D,B,B2,E];
+ let s='';
+ if(es===1)s+=poly(sqC,cc,.4,tx)+poly(sqB,cb,.4,tx)+poly(sqA,ca,.4,tx);
+ else{s+=poly(RL,cb,.3,tx)+poly(RR,ca,.3,tx)+poly(sqB,cb,.4,tx)+poly(sqA,ca,.4,tx);
+  const u=S(C),w=S(E);s+=`<line x1="${u[0]}" y1="${u[1]}" x2="${w[0]}" y2="${w[1]}" stroke="${tx}" stroke-dasharray="5 4"/>`}
+ s+=poly([A,B,C],'var(--tri)',1,tx,1.8);
+ if(es===3||es===4){const T=es===3?[A,F,B]:[B,F2,A],O=es===3?A:B,th=(es===3?-1:1)*Math.PI/2,Tg=es===3?[A,C,A2]:[B,C,B2],cl=es===3?cb:ca;
+  s+=poly(Tg,'none',0,cl,2,1)+poly(T,'none',0,cl,1.5,1)+poly(T.map(q=>rot(q,O,th*et)),cl,.75,tx,1.6)}
+ s+=lab(sqC.slice(0,4),'',cc);
+ if(es===1)s+=lab(sqC,'c²',cc);
+ else s+=lab(RL,es>=3&&(es>3||et>.99)?'b²':'S₁',cb)+lab(RR,es>=4&&(es>4||et>.99)?'a²':'S₂',ca);
+ s+=lab(sqB,'b²',cb)+lab(sqA,'a²',ca)+vl(A,'A',-12,16)+vl(B,'B',12,16)+vl(C,'C',0,-10);
+ $('esvg').innerHTML=s;
+ $('ecap').innerHTML=[
+ `Построим на каждой стороне треугольника ABC квадрат: <span class="b">b²</span> на катете AC, <span class="a">a²</span> на катете BC и <span class="c">c²</span> на гипотенузе AB. Нужно доказать, что <b>c² = a² + b²</b>.`,
+ `Проведём высоту из вершины C и продолжим её через квадрат на гипотенузе: он разделится на два прямоугольника S₁ и S₂. Докажем, что <span class="b">S₁ = b²</span> и <span class="a">S₂ = a²</span>.`,
+ `Треугольник AFB имеет основание AF (сторона квадрата), а его вершина B лежит на прямой, параллельной AF. Поэтому его площадь — половина квадрата: <span class="b">b²/2</span>. Повернём его на 90° вокруг A: он станет равным треугольником ACA′ с основанием AA′ — стороной прямоугольника S₁ — и вершиной C на противоположной стороне. Его площадь — S₁/2. Значит, <b>S₁ = b²</b>.`,
+ `Так же для катета a. Треугольник BF₂A имеет площадь <span class="a">a²/2</span> (основание — сторона квадрата, вершина A лежит на прямой, параллельной ей). Поворот на 90° вокруг B переводит его в равный треугольник BCB′ площадью S₂/2. Значит, <b>S₂ = a²</b>.`,
+ `Итак, квадрат на гипотенузе состоит из двух прямоугольников: <b>c² = S₁ + S₂ = b² + a²</b>. Теорема доказана для любого прямоугольного треугольника — попробуйте разные a и b.`][es-1];
+ document.querySelectorAll('#steps button').forEach((x,i)=>x.classList.toggle('pri',i===es-1));
+ const on=es===3||es===4;$('et').disabled=!on;$('eplay').disabled=!on;
+ $('eeq').innerHTML=`Для a = ${a}, b = ${b}: <span class="a">a²</span> + <span class="b">b²</span> = ${a*a} + ${b*b} = ${a*a+b*b} = <span class="c">c²</span>, значит c = √${a*a+b*b} ≈ ${fmt(c)}.<br><span class="mut">Проверка по рисунку: S₁ = ${fmt(p*c)} = b², S₂ = ${fmt((c-p)*c)} = a².</span>`;
+}
+function estop(){if(etimer){clearInterval(etimer);etimer=null;$('eplay').textContent='▶'}}
+$('ea').oninput=$('eb').oninput=()=>{estop();ea=+$('ea').value;eb=+$('eb').value;$('eva').textContent=ea;$('evb').textContent=eb;edraw()};
+$('et').oninput=()=>{estop();et=$('et').value/100;edraw()};
+$('eplay').onclick=()=>{if(etimer)return estop();$('eplay').textContent='❚❚';if(et>=1){et=0;$('et').value=0}
+ etimer=setInterval(()=>{let v=+$('et').value+1;$('et').value=v;et=v/100;edraw();if(v>=100)estop()},25)};
+edraw();
+
+/* ---------- Калькулятор ---------- */
+const num=id=>{const s=$(id).value.trim().replace(',','.');return s===''?null:parseFloat(s)};
+function calc(){
+ const v=[num('ca'),num('cb'),num('cc')],R=$('cres'),e=v.filter(x=>x===null).length;
+ if(v.some(x=>x!==null&&!(x>0)))return R.textContent='Стороны должны быть положительными числами.';
+ if(e!==1)return R.textContent='Оставьте пустым ровно одно поле.';
+ const [x,y,z]=v;
+ if(z===null)R.innerHTML=`c² = a² + b² = ${fmt(x*x)} + ${fmt(y*y)} = ${fmt(x*x+y*y)}<br><b>c = √${fmt(x*x+y*y)} ≈ ${fmt(Math.sqrt(x*x+y*y))}</b>`;
+ else{const k=x===null?'a':'b',o=x===null?y:x;
+  if(z<=o)return R.textContent='Гипотенуза должна быть длиннее катета.';
+  R.innerHTML=`${k}² = c² − ${x===null?'b':'a'}² = ${fmt(z*z)} − ${fmt(o*o)} = ${fmt(z*z-o*o)}<br><b>${k} = √${fmt(z*z-o*o)} ≈ ${fmt(Math.sqrt(z*z-o*o))}</b>`}
+}
+['ca','cb','cc'].forEach(i=>$(i).oninput=calc);calc();
+[[3,4,5],[5,12,13],[8,15,17],[7,24,25],[20,21,29],[9,40,41]].forEach(t=>{const bt=document.createElement('button');bt.className='btn';bt.textContent=t.join('–');
+ bt.onclick=()=>{$('ca').value=t[0];$('cb').value=t[1];$('cc').value='';calc();$('x1').value=t[0];$('x2').value=t[1];$('x3').value=t[2];chk()};$('trip').appendChild(bt)});
+function chk(){
+ const s=['x1','x2','x3'].map(num),R=$('xres');
+ if(s.some(x=>!(x>0)))return R.textContent='Введите три положительных числа.';
+ s.sort((p,q)=>p-q);const [x,y,z]=s;
+ if(x+y<=z)return R.textContent='Такого треугольника не существует: сумма двух меньших сторон должна быть больше третьей.';
+ const l=x*x+y*y,r=z*z,d=Math.abs(l-r)<1e-9;
+ R.innerHTML=`${fmt(x)}² + ${fmt(y)}² = ${fmt(l)}, &nbsp;${fmt(z)}² = ${fmt(r)}<br><b>`+(d?'Равны → треугольник прямоугольный ✔':l>r?'Сумма больше → треугольник остроугольный':'Сумма меньше → треугольник тупоугольный')+'</b>';
+}
+['x1','x2','x3'].forEach(i=>$(i).oninput=chk);chk();
+
+/* ---------- Тригонометрия ---------- */
+function trig(){
+ const d=+$('al').value,r=d*Math.PI/180,L=300,x0=40,y0=215,cx=x0+L*Math.cos(r),by=y0-L*Math.sin(r),m=14;
+ $('alv').textContent=d+'°';
+ $('tsvg').innerHTML=`<polygon points="${x0},${y0} ${cx},${y0} ${cx},${by}" fill="var(--tri)" stroke="var(--tx)" stroke-width="1.6" stroke-linejoin="round"/>
+ <path d="M${cx-m},${y0} V${y0-m} H${cx}" fill="none" stroke="var(--tx)"/>
+ <path d="M${x0+40},${y0} A40 40 0 0 0 ${x0+40*Math.cos(r)},${y0-40*Math.sin(r)}" fill="none" stroke="var(--ac)" stroke-width="2"/>
+ <text x="${x0+48}" y="${y0-8}" fill="var(--ac)" font-size="16" font-weight="700">α</text>
+ <text x="${(x0+cx)/2}" y="${y0+22}" text-anchor="middle" fill="var(--b)" font-size="17" font-weight="700">b</text>
+ <text x="${cx+10}" y="${(y0+by)/2+6}" fill="var(--a)" font-size="17" font-weight="700">a</text>
+ <text x="${(x0+cx)/2-14}" y="${(y0+by)/2-8}" fill="var(--c)" font-size="17" font-weight="700">c</text>`;
+ $('trow').innerHTML=`<td>${Math.sin(r).toFixed(3)}</td><td>${Math.cos(r).toFixed(3)}</td><td>${Math.tan(r).toFixed(3)}</td>`;
+}
+$('al').oninput=trig;trig();
+
+/* ---------- Тест ---------- */
+const Q=[
+ ['Катеты равны 6 и 8. Чему равна гипотенуза?',['9','10','14','12'],1,'c² = 36 + 64 = 100, c = 10.'],
+ ['Гипотенуза 13, один катет 5. Второй катет —',['8','12','18','√194'],1,'b² = 169 − 25 = 144, b = 12.'],
+ ['Катет против угла 30° равен 7. Гипотенуза —',['3,5','7','14','7√3'],2,'Катет против 30° — половина гипотенузы, значит c = 14.'],
+ ['Гипотенуза прямоугольного треугольника 10. Чему равна медиана, проведённая к ней?',['10','5','2,5','Нельзя найти'],1,'Медиана к гипотенузе равна её половине: 5.'],
+ ['Стороны 4, 5, 6. Какой это треугольник?',['Прямоугольный','Остроугольный','Тупоугольный','Не существует'],1,'6² = 36 < 4² + 5² = 41 — все углы острые.']];
+let sc=0,done=0;
+Q.forEach((q,i)=>{const d=document.createElement('div');d.innerHTML=`<p><b>${i+1}. ${q[0]}</b></p>`;
+ q[1].forEach((o,j)=>{const bt=document.createElement('button');bt.className='btn opt';bt.textContent=o;
+  bt.onclick=()=>{if(d.dataset.d)return;d.dataset.d=1;done++;if(j===q[2])sc++;
+   [...d.querySelectorAll('.opt')].forEach((x,k)=>x.classList.add(k===q[2]?'ok':(k===j?'no':'x')));
+   d.insertAdjacentHTML('beforeend',`<p class="mut">${q[3]}</p>`);
+   $('score').textContent=done===Q.length?`Результат: ${sc} из ${Q.length}`:`Отвечено: ${done} из ${Q.length}`};d.appendChild(bt)});
+ $('quiz').appendChild(d)});
+</script></body></html>

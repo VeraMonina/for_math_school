@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Теория для задания №2 ЕГЭ (векторы)</title>
+<style>
+  :root {
+    --bg: #f7f9fc;
+    --card: #ffffff;
+    --accent: #2b6cb0;
+    --accent-soft: #e6f0fa;
+    --text: #1a202c;
+    --muted: #4a5568;
+    --border: #e2e8f0;
+    --ok: #2f855a;
+    --warn: #c05621;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 32px 16px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+    font-size: 16px;
+  }
+  .container {
+    max-width: 920px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 28px;
+    margin: 0 0 8px;
+    color: var(--accent);
+  }
+  .subtitle {
+    color: var(--muted);
+    margin-bottom: 28px;
+    font-size: 15px;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  h2 {
+    font-size: 20px;
+    margin: 0 0 12px;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h2 .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px; height: 30px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-radius: 50%;
+    font-size: 15px;
+    font-weight: 700;
+  }
+  p { margin: 8px 0; }
+  .formula {
+    background: var(--accent-soft);
+    border-left: 4px solid var(--accent);
+    padding: 12px 16px;
+    margin: 12px 0;
+    border-radius: 6px;
+    font-family: "Cambria Math", "Georgia", "Times New Roman", serif;
+    font-size: 17px;
+    text-align: center;
+    overflow-x: auto;
+  }
+  .formula.mono { font-family: "Consolas", "Menlo", monospace; font-size: 15px; text-align: left; }
+  .note {
+    background: #fffaf0;
+    border-left: 4px solid var(--warn);
+    padding: 10px 14px;
+    margin: 12px 0;
+    border-radius: 6px;
+    font-size: 15px;
+  }
+  .tip {
+    background: #f0fff4;
+    border-left: 4px solid var(--ok);
+    padding: 10px 14px;
+    margin: 12px 0;
+    border-radius: 6px;
+    font-size: 15px;
+  }
+  ul, ol { margin: 8px 0; padding-left: 22px; }
+  li { margin: 4px 0; }
+  .vec { font-style: italic; }
+  .vec::before { content: "→"; margin-right: 1px; font-style: normal; vertical-align: -1px; }
+  code { 
+    background: #edf2f7; 
+    padding: 1px 6px; 
+    border-radius: 4px; 
+    font-size: 14px;
+    font-family: Consolas, monospace;
+  }
+  .highlight { color: var(--accent); font-weight: 600; }
+  .step {
+    display: flex;
+    gap: 12px;
+    margin: 10px 0;
+  }
+  .step-num {
+    flex: 0 0 auto;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 640px) {
+    .grid-2 { grid-template-columns: 1fr; }
+    body { padding: 16px 10px; }
+    .card { padding: 16px; }
+  }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-right: 6px;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 15px;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    text-align: left;
+  }
+  th {
+    background: var(--accent-soft);
+    color: var(--accent);
+  }
+  .sum {
+    font-size: 17px;
+    font-weight: 600;
+    background: #fff;
+    border: 2px dashed var(--accent);
+    border-radius: 10px;
+    padding: 16px;
+    margin-top: 8px;
+  }
+  .sum .row { margin: 6px 0; font-family: "Cambria Math", Georgia, serif; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>Теория для задания №2 ЕГЭ</h1>
+  <div class="subtitle">Векторы: координаты, длина, линейные операции, скалярное произведение, параллельность и перпендикулярность</div>
+
+  <!-- 1. Координаты вектора -->
+  <div class="card">
+    <h2><span class="num">1</span>Вектор и его координаты</h2>
+    <p>Вектор, заданный координатами:</p>
+    <div class="formula">a = (x₁; y₁),&nbsp;&nbsp;&nbsp; b = (x₂; y₂)</div>
+    <p>Координаты вектора — это его смещение по оси <b>x</b> и по оси <b>y</b>.</p>
+    <p>Если даны точки <span class="highlight">A(x<sub>A</sub>; y<sub>A</sub>)</span> и <span class="highlight">B(x<sub>B</sub>; y<sub>B</sub>)</span>, то вектор AB имеет координаты:</p>
+    <div class="formula">AB = (x<sub>B</sub> − x<sub>A</sub>;&nbsp; y<sub>B</sub> − y<sub>A</sub>)</div>
+    <div class="note">
+      <b>Правило:</b> из координат <b>конца</b> вычитаем координаты <b>начала</b>.
+    </div>
+    <p>На рисунке (задания 27–31) координаты вектора считаются по клеткам: сколько клеток вправо/влево (это x) и сколько вверх/вниз (это y). Влево и вниз — координаты отрицательные.</p>
+  </div>
+
+  <!-- 2. Линейные операции -->
+  <div class="card">
+    <h2><span class="num">2</span>Линейные операции с векторами</h2>
+    <p>Для a = (x₁; y₁) и b = (x₂; y₂):</p>
+    <div class="grid-2">
+      <div>
+        <p><b>Сложение:</b></p>
+        <div class="formula">a + b = (x₁ + x₂;&nbsp; y₁ + y₂)</div>
+      </div>
+      <div>
+        <p><b>Вычитание:</b></p>
+        <div class="formula">a − b = (x₁ − x₂;&nbsp; y₁ − y₂)</div>
+      </div>
+    </div>
+    <p><b>Умножение на число k:</b></p>
+    <div class="formula">k · a = (k·x₁;&nbsp; k·y₁)</div>
+    <div class="tip">
+      <b>Пример:</b> найти a − 4b, если a = (x₁; y₁) и b = (x₂; y₂).<br>
+      Сначала умножаем b на 4, затем вычитаем: <b>a − 4b = (x₁ − 4x₂;&nbsp; y₁ − 4y₂)</b>.
+    </div>
+  </div>
+
+  <!-- 3. Длина вектора -->
+  <div class="card">
+    <h2><span class="num">3</span>Длина вектора</h2>
+    <p>Длина вектора a = (x; y):</p>
+    <div class="formula">|a| = √(x² + y²)</div>
+    <p>Квадрат длины:</p>
+    <div class="formula">|a|² = x² + y²</div>
+    <p>Длина — это неотрицательное число.</p>
+    <div class="tip">
+      <b>Как искать длину c = α·a + β·b:</b>
+      <div class="step"><span class="step-num">1</span><span>находим координаты вектора c;</span></div>
+      <div class="step"><span class="step-num">2</span><span>считаем √(c<sub>x</sub>² + c<sub>y</sub>²).</span></div>
+    </div>
+  </div>
+
+  <!-- 4. Скалярное произведение -->
+  <div class="card">
+    <h2><span class="num">4</span>Скалярное произведение</h2>
+    <p>Скалярное произведение a = (x₁; y₁) и b = (x₂; y₂):</p>
+    <div class="formula">a · b = x₁x₂ + y₁y₂</div>
+    <p>Результат — <b>число</b>, а не вектор.</p>
+    <p>Геометрический смысл:</p>
+    <div class="formula">a · b = |a| · |b| · cos φ</div>
+    <p>где φ — угол между векторами. Отсюда:</p>
+    <div class="formula">cos φ = (a · b) / (|a| · |b|)</div>
+    <p><b>Свойства:</b></p>
+    <ul>
+      <li>a · a = |a|²</li>
+      <li>a · b = b · a</li>
+    </ul>
+    <p><b>Знак скалярного произведения:</b></p>
+    <table>
+      <tr><th>Условие</th><th>Угол между векторами</th></tr>
+      <tr><td>a · b &gt; 0</td><td>острый</td></tr>
+      <tr><td>a · b = 0</td><td>прямой (перпендикулярны)</td></tr>
+      <tr><td>a · b &lt; 0</td><td>тупой</td></tr>
+    </table>
+  </div>
+
+  <!-- 5. Перпендикулярность и параллельность -->
+  <div class="card">
+    <h2><span class="num">5</span>Перпендикулярность и параллельность</h2>
+    <p>Для ненулевых векторов a = (x₁; y₁) и b = (x₂; y₂):</p>
+
+    <h3 style="color:var(--ok);margin-top:16px;">Перпендикулярность</h3>
+    <p>Векторы перпендикулярны ⟺ их скалярное произведение равно нулю:</p>
+    <div class="formula">a ⊥ b&nbsp;&nbsp;⟺&nbsp;&nbsp;a · b = 0&nbsp;&nbsp;⟺&nbsp;&nbsp;x₁x₂ + y₁y₂ = 0</div>
+
+    <h3 style="color:var(--warn);margin-top:16px;">Параллельность (коллинеарность)</h3>
+    <p>Векторы параллельны ⟺ их координаты пропорциональны:</p>
+    <div class="formula">a ∥ b&nbsp;&nbsp;⟺&nbsp;&nbsp;x₁ / x₂ = y₁ / y₂</div>
+    <p>с учётом нулевых координат. Универсально — через определитель:</p>
+    <div class="formula">a ∥ b&nbsp;&nbsp;⟺&nbsp;&nbsp;x₁y₂ − x₂y₁ = 0</div>
+
+    <div class="note">
+      Если b = k · a:
+      <ul style="margin-top:6px;">
+        <li>при k &gt; 0 — векторы <b>сонаправлены</b>;</li>
+        <li>при k &lt; 0 — векторы <b>противоположно направлены</b>.</li>
+      </ul>
+      Параллельные векторы могут быть направлены как в одну сторону, так и в противоположные.
+    </div>
+  </div>
+
+  <!-- 6. Как решать -->
+  <div class="card">
+    <h2><span class="num">6</span>Как решать задания №2</h2>
+
+    <p><span class="badge">Задания 1–11</span> Найти длину линейной комбинации</p>
+    <div class="step"><span class="step-num">1</span><span>находим координаты линейной комбинации (сложить/вычесть/умножить);</span></div>
+    <div class="step"><span class="step-num">2</span><span>считаем длину по формуле √(x² + y²).</span></div>
+
+    <p style="margin-top:16px;"><span class="badge">Задания 12–13</span> Найти скалярное произведение</p>
+    <div class="formula mono">a · b = x₁·x₂ + y₁·y₂</div>
+
+    <p style="margin-top:16px;"><span class="badge">Задания 27–31</span> По рисунку</p>
+    <div class="step"><span class="step-num">1</span><span>по клеткам находим координаты a и b (от начала к концу вектора);</span></div>
+    <div class="step"><span class="step-num">2</span><span>подставляем в формулу a · b = x₁x₂ + y₁y₂.</span></div>
+  </div>
+
+  <!-- Итог -->
+  <div class="card">
+    <h2>Коротко — всё главное</h2>
+    <div class="sum">
+      <div class="row">|a| = √(x² + y²)</div>
+      <div class="row">a · b = x₁x₂ + y₁y₂</div>
+      <div class="row">a ⊥ b&nbsp;&nbsp;⟺&nbsp;&nbsp;a · b = 0</div>
+      <div class="row">a ∥ b&nbsp;&nbsp;⟺&nbsp;&nbsp;x₁y₂ − x₂y₁ = 0</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

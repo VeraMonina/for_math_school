@@ -25,6 +25,7 @@
   --sin:#FF7D95;--cos:#4FD1C5;--tan:#F2B441;--ang:#93A2FF;
 }
 *{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.5;-webkit-text-size-adjust:100%}
 .wrap{max-width:1100px;margin:0 auto;padding:28px 20px 48px}
 h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,4vw,38px);margin:0 0 6px;letter-spacing:-0.01em;line-height:1.15}
@@ -89,7 +90,88 @@ input[type=range]{accent-color:var(--ang);height:28px;cursor:pointer}
 .tm{fill:var(--ink3);font-size:11px;font-family:var(--sans)}
 .ttl{font-family:var(--serif);font-size:16px;font-style:italic}
 .tt{font-family:var(--serif);font-size:15px;font-style:italic;paint-order:stroke;stroke:var(--panel);stroke-width:4px;stroke-linejoin:round}
-@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+
+/* === ДОБАВЛЕНО: сетка карточек-ссылок === */
+.cards-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px;
+}
+.cards-row .card-link{margin-top:0}
+@media (max-width:720px){.cards-row{grid-template-columns:1fr}}
+
+/* === ДОБАВЛЕНО: раздел теории векторов === */
+.theory{margin-top:44px}
+.theory .h2{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(22px,3.2vw,30px);
+  margin:0 0 6px;line-height:1.2;letter-spacing:-0.01em;
+}
+.theory .lead2{color:var(--ink2);margin:0 0 22px;max-width:70ch}
+.theory .card{
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:10px;padding:20px 24px;margin-bottom:16px;
+}
+.theory .card h3{
+  font-family:var(--serif);font-weight:600;font-size:19px;
+  margin:0 0 10px;color:var(--ang);
+  display:flex;align-items:center;gap:10px;line-height:1.25;
+}
+.theory .card h3 .num{
+  display:inline-grid;place-items:center;width:28px;height:28px;border-radius:50%;
+  background:color-mix(in srgb,var(--ang) 14%,transparent);
+  color:var(--ang);font-family:var(--sans);font-size:14px;font-weight:600;flex:none;
+}
+.theory p{margin:8px 0}
+.formula{
+  background:color-mix(in srgb,var(--ang) 8%,transparent);
+  border-left:4px solid var(--ang);
+  padding:12px 16px;margin:12px 0;border-radius:6px;
+  font-family:var(--serif);font-size:18px;text-align:center;
+  overflow-x:auto;font-variant-numeric:tabular-nums;
+}
+.note{
+  background:color-mix(in srgb,var(--tan) 10%,transparent);
+  border-left:4px solid var(--tan);
+  padding:10px 14px;margin:12px 0;border-radius:6px;font-size:15px;
+}
+.tip{
+  background:color-mix(in srgb,var(--cos) 10%,transparent);
+  border-left:4px solid var(--cos);
+  padding:10px 14px;margin:12px 0;border-radius:6px;font-size:15px;
+}
+.theory ul,.theory ol{margin:8px 0;padding-left:22px}
+.theory li{margin:4px 0}
+.theory .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:640px){.theory .grid{grid-template-columns:1fr}}
+.theory .step{display:flex;gap:12px;margin:10px 0;align-items:flex-start}
+.theory .step .n{
+  flex:none;width:26px;height:26px;border-radius:50%;
+  background:var(--ang);color:var(--panel);
+  display:grid;place-items:center;font-size:13px;font-weight:600;
+}
+.theory table{width:100%;border-collapse:collapse;margin:12px 0;font-size:15px}
+.theory th,.theory td{border:1px solid var(--line);padding:8px 12px;text-align:left}
+.theory th{
+  background:color-mix(in srgb,var(--ang) 8%,transparent);
+  color:var(--ang);font-weight:600;
+}
+.summary{
+  border:2px dashed var(--ang) !important;
+  background:var(--panel) !important;text-align:center;
+}
+.summary .row-f{
+  font-family:var(--serif);font-size:19px;margin:10px 0;
+  font-variant-numeric:tabular-nums;
+}
+.badge{
+  display:inline-block;padding:2px 8px;
+  background:color-mix(in srgb,var(--ang) 12%,transparent);
+  color:var(--ang);border-radius:4px;font-size:13px;
+  font-weight:600;margin-right:6px;
+}
+.vec{font-style:italic;font-weight:600;white-space:nowrap}
+.vec::before{content:"→";font-style:normal;font-weight:400;margin-right:2px;color:var(--ink3)}
+
+@media (prefers-reduced-motion: reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
 <body>
@@ -151,14 +233,154 @@ input[type=range]{accent-color:var(--ang);height:28px;cursor:pointer}
     </div>
   </div>
 
-  <a class="card-link" href="pythagoras.html">
-    <span class="ico" aria-hidden="true">📐</span>
-    <span>
-      <h2>Теорема Пифагора и прямоугольный треугольник</h2>
-      <p>Откуда берётся тождество sin² θ + cos² θ = 1: интерактивное доказательство, калькулятор сторон, свойства и мини-тест.</p>
-    </span>
-    <span class="go" aria-hidden="true">→</span>
-  </a>
+  <!-- === ДОБАВЛЕНО: ряд из двух карточек-ссылок === -->
+  <div class="cards-row">
+    <a class="card-link" href="pythagoras.html">
+      <span class="ico" aria-hidden="true">📐</span>
+      <span>
+        <h2>Теорема Пифагора и прямоугольный треугольник</h2>
+        <p>Откуда берётся тождество sin² θ + cos² θ = 1: интерактивное доказательство, калькулятор сторон, свойства и мини-тест.</p>
+      </span>
+      <span class="go" aria-hidden="true">→</span>
+    </a>
+    <a class="card-link" href="#vectors">
+      <span class="ico" aria-hidden="true">↗</span>
+      <span>
+        <h2>Задание №2 ЕГЭ — Векторы</h2>
+        <p>Координаты, длина, скалярное произведение, условия параллельности и перпендикулярности. Вся теория для заданий №2 из банка ФИПИ.</p>
+      </span>
+      <span class="go" aria-hidden="true">↓</span>
+    </a>
+  </div>
+
+  <!-- === ДОБАВЛЕНО: теория векторов === -->
+  <section class="theory" id="vectors" aria-labelledby="vectors-title">
+    <h2 id="vectors-title" class="h2">Задание №2 ЕГЭ — Векторы</h2>
+    <p class="lead2">Вся теория, которая нужна для заданий №2 из банка ФИПИ: длины векторов, линейные комбинации, скалярное произведение, условия параллельности и перпендикулярности.</p>
+
+    <!-- 1. Координаты вектора -->
+    <div class="card">
+      <h3><span class="num">1</span>Вектор и его координаты</h3>
+      <p>Вектор, заданный координатами:</p>
+      <div class="formula"><span class="vec">a</span> = (x₁; y₁),&nbsp;&nbsp;&nbsp;<span class="vec">b</span> = (x₂; y₂)</div>
+      <p>Координаты вектора — это его смещение по оси <b>x</b> и по оси <b>y</b>.</p>
+      <p>Если даны точки <b>A(x<sub>A</sub>; y<sub>A</sub>)</b> и <b>B(x<sub>B</sub>; y<sub>B</sub>)</b>, то вектор AB имеет координаты:</p>
+      <div class="formula"><span class="vec">AB</span> = (x<sub>B</sub> − x<sub>A</sub>;&nbsp; y<sub>B</sub> − y<sub>A</sub>)</div>
+      <div class="note"><b>Правило:</b> из координат <b>конца</b> вычитаем координаты <b>начала</b>.</div>
+      <p>На рисунке (задания 27–31) координаты вектора считаются по клеткам: сколько клеток вправо/влево (это x) и сколько вверх/вниз (это y). Влево и вниз — координаты отрицательные.</p>
+    </div>
+
+    <!-- 2. Линейные операции -->
+    <div class="card">
+      <h3><span class="num">2</span>Линейные операции с векторами</h3>
+      <p>Для <span class="vec">a</span> = (x₁; y₁) и <span class="vec">b</span> = (x₂; y₂):</p>
+      <div class="grid">
+        <div>
+          <p><b>Сложение:</b></p>
+          <div class="formula"><span class="vec">a</span> + <span class="vec">b</span> = (x₁ + x₂;&nbsp; y₁ + y₂)</div>
+        </div>
+        <div>
+          <p><b>Вычитание:</b></p>
+          <div class="formula"><span class="vec">a</span> − <span class="vec">b</span> = (x₁ − x₂;&nbsp; y₁ − y₂)</div>
+        </div>
+      </div>
+      <p><b>Умножение на число k:</b></p>
+      <div class="formula">k · <span class="vec">a</span> = (k·x₁;&nbsp; k·y₁)</div>
+      <div class="tip">
+        <b>Пример:</b> найти <span class="vec">a</span> − 4<span class="vec">b</span>, если <span class="vec">a</span> = (x₁; y₁) и <span class="vec">b</span> = (x₂; y₂).<br>
+        Сначала умножаем <span class="vec">b</span> на 4, затем вычитаем: <b><span class="vec">a</span> − 4<span class="vec">b</span> = (x₁ − 4x₂;&nbsp; y₁ − 4y₂)</b>.
+      </div>
+    </div>
+
+    <!-- 3. Длина вектора -->
+    <div class="card">
+      <h3><span class="num">3</span>Длина вектора</h3>
+      <p>Длина вектора <span class="vec">a</span> = (x; y):</p>
+      <div class="formula">|<span class="vec">a</span>| = √(x² + y²)</div>
+      <p>Квадрат длины:</p>
+      <div class="formula">|<span class="vec">a</span>|² = x² + y²</div>
+      <p>Длина — это неотрицательное число.</p>
+      <div class="tip">
+        <b>Как искать длину <span class="vec">c</span> = α·<span class="vec">a</span> + β·<span class="vec">b</span>:</b>
+        <div class="step"><span class="n">1</span><span>находим координаты вектора <span class="vec">c</span>;</span></div>
+        <div class="step"><span class="n">2</span><span>считаем √(c<sub>x</sub>² + c<sub>y</sub>²).</span></div>
+      </div>
+    </div>
+
+    <!-- 4. Скалярное произведение -->
+    <div class="card">
+      <h3><span class="num">4</span>Скалярное произведение</h3>
+      <p>Скалярное произведение <span class="vec">a</span> = (x₁; y₁) и <span class="vec">b</span> = (x₂; y₂):</p>
+      <div class="formula"><span class="vec">a</span> · <span class="vec">b</span> = x₁x₂ + y₁y₂</div>
+      <p>Результат — <b>число</b>, а не вектор.</p>
+      <p>Геометрический смысл:</p>
+      <div class="formula"><span class="vec">a</span> · <span class="vec">b</span> = |<span class="vec">a</span>| · |<span class="vec">b</span>| · cos φ</div>
+      <p>где φ — угол между векторами. Отсюда:</p>
+      <div class="formula">cos φ = (<span class="vec">a</span> · <span class="vec">b</span>) / (|<span class="vec">a</span>| · |<span class="vec">b</span>|)</div>
+      <p><b>Свойства:</b></p>
+      <ul>
+        <li><span class="vec">a</span> · <span class="vec">a</span> = |<span class="vec">a</span>|²</li>
+        <li><span class="vec">a</span> · <span class="vec">b</span> = <span class="vec">b</span> · <span class="vec">a</span></li>
+      </ul>
+      <p><b>Знак скалярного произведения:</b></p>
+      <table>
+        <tr><th>Условие</th><th>Угол между векторами</th></tr>
+        <tr><td><span class="vec">a</span> · <span class="vec">b</span> &gt; 0</td><td>острый</td></tr>
+        <tr><td><span class="vec">a</span> · <span class="vec">b</span> = 0</td><td>прямой (перпендикулярны)</td></tr>
+        <tr><td><span class="vec">a</span> · <span class="vec">b</span> &lt; 0</td><td>тупой</td></tr>
+      </table>
+    </div>
+
+    <!-- 5. Перпендикулярность и параллельность -->
+    <div class="card">
+      <h3><span class="num">5</span>Перпендикулярность и параллельность</h3>
+      <p>Для ненулевых векторов <span class="vec">a</span> = (x₁; y₁) и <span class="vec">b</span> = (x₂; y₂):</p>
+
+      <h4 style="color:var(--cos);margin-top:16px;font-family:var(--serif);font-weight:600;font-size:17px;">Перпендикулярность</h4>
+      <p>Векторы перпендикулярны ⟺ их скалярное произведение равно нулю:</p>
+      <div class="formula"><span class="vec">a</span> ⊥ <span class="vec">b</span>&nbsp;&nbsp;⟺&nbsp;&nbsp;<span class="vec">a</span> · <span class="vec">b</span> = 0&nbsp;&nbsp;⟺&nbsp;&nbsp;x₁x₂ + y₁y₂ = 0</div>
+
+      <h4 style="color:var(--tan);margin-top:16px;font-family:var(--serif);font-weight:600;font-size:17px;">Параллельность (коллинеарность)</h4>
+      <p>Векторы параллельны ⟺ их координаты пропорциональны:</p>
+      <div class="formula"><span class="vec">a</span> ∥ <span class="vec">b</span>&nbsp;&nbsp;⟺&nbsp;&nbsp;x₁ / x₂ = y₁ / y₂</div>
+      <p>с учётом нулевых координат. Универсально — через определитель:</p>
+      <div class="formula"><span class="vec">a</span> ∥ <span class="vec">b</span>&nbsp;&nbsp;⟺&nbsp;&nbsp;x₁y₂ − x₂y₁ = 0</div>
+
+      <div class="note">
+        Если <span class="vec">b</span> = k · <span class="vec">a</span>:
+        <ul style="margin-top:6px;">
+          <li>при k &gt; 0 — векторы <b>сонаправлены</b>;</li>
+          <li>при k &lt; 0 — векторы <b>противоположно направлены</b>.</li>
+        </ul>
+        Параллельные векторы могут быть направлены как в одну сторону, так и в противоположные.
+      </div>
+    </div>
+
+    <!-- 6. Как решать -->
+    <div class="card">
+      <h3><span class="num">6</span>Как решать задания №2</h3>
+
+      <p><span class="badge">Задания 1–11</span> Найти длину линейной комбинации</p>
+      <div class="step"><span class="n">1</span><span>находим координаты линейной комбинации (сложить / вычесть / умножить);</span></div>
+      <div class="step"><span class="n">2</span><span>считаем длину по формуле √(x² + y²).</span></div>
+
+      <p style="margin-top:16px;"><span class="badge">Задания 12–13</span> Найти скалярное произведение</p>
+      <div class="formula"><span class="vec">a</span> · <span class="vec">b</span> = x₁·x₂ + y₁·y₂</div>
+
+      <p style="margin-top:16px;"><span class="badge">Задания 27–31</span> По рисунку</p>
+      <div class="step"><span class="n">1</span><span>по клеткам находим координаты <span class="vec">a</span> и <span class="vec">b</span> (от начала к концу вектора);</span></div>
+      <div class="step"><span class="n">2</span><span>подставляем в формулу <span class="vec">a</span> · <span class="vec">b</span> = x₁x₂ + y₁y₂.</span></div>
+    </div>
+
+    <!-- Итог -->
+    <div class="card summary">
+      <h3 style="justify-content:center;"><span class="num">★</span>Коротко — всё главное</h3>
+      <div class="row-f">|<span class="vec">a</span>| = √(x² + y²)</div>
+      <div class="row-f"><span class="vec">a</span> · <span class="vec">b</span> = x₁x₂ + y₁y₂</div>
+      <div class="row-f"><span class="vec">a</span> ⊥ <span class="vec">b</span>&nbsp;&nbsp;⟺&nbsp;&nbsp;<span class="vec">a</span> · <span class="vec">b</span> = 0</div>
+      <div class="row-f"><span class="vec">a</span> ∥ <span class="vec">b</span>&nbsp;&nbsp;⟺&nbsp;&nbsp;x₁y₂ − x₂y₁ = 0</div>
+    </div>
+  </section>
 </div>
 
 <script>
